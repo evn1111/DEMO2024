@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  wiki:
+    image: mediawiki
+    ports:
+      - "8079:80"
+    volumes:
+      - ~/LocalSettings.php:/var/www/html/LocalSettings.php
+    depends_on:
+      - db
+    networks:
+      - mediawiki-network
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: DEP@ssw-1rd
+      MYSQL_DATABASE: mediawiki
+      MYSQL_USER: wiki
+      MYSQL_PASSWORD: DEP@ssw0rd
+    volumes:
+      - dbvolume:/var/lib/mysql
+    networks:
+      - mediawiki-network
+
+volumes:
+  dbvolume:
+
+networks:
+  mediawiki-network:
