@@ -7,6 +7,7 @@ inspared by https://github.com/valeriar23/DEMO2022
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/fc1f64f7-9990-4a47-97c8-05d034b1b5b7)
 
 ## План выполнения DEMO
+- 1 Модуль
 1. Базовая настройка сетевых устройств
 2. Настройка внутренней маршрутизации
 3. Настройка DHCP
