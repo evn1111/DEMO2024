@@ -69,6 +69,121 @@ cp $CONFIG_FILE $BACKUP_FILE
 ```
 echo "Backup of $CONFIG_FILE saved to $BACKUP_FILE"
 ```
+## Модуль 2 задание 4
+
+Настройка SMB-сервера на базе сервера HQ-SRV для реализации общих папок с разрешениями для разных пользователей и автоматическим монтированием при входе доменных пользователей может быть выполнена следующим образом:
+
+1. Установите и настройте Samba на сервере HQ-SRV, если он еще не установлен. Выполните команду для установки Samba (если она еще не установлена):
+
+```bash
+sudo apt-get install samba
+```
+
+2. Создайте общие папки, которые должны быть опубликованы:
+
+```bash
+sudo mkdir /shared/Branch_Files
+sudo mkdir /shared/Network
+sudo mkdir /shared/Admin_Files
+```
+
+3. Настройте разрешения для этих папок, чтобы удовлетворить требованиям доступа пользователей:
+
+```bash
+sudo chown BranchAdminUser /shared/Branch_Files
+sudo chown NetworkAdminUser /shared/Network
+sudo chown AdminUser /shared/Admin_Files
+```
+
+Где `BranchAdminUser`, `NetworkAdminUser` и `AdminUser` - это пользователи, которым разрешено доступ к соответствующим папкам.
+
+4. Отредактируйте конфигурационный файл Samba `/etc/samba/smb.conf`:
+
+```bash
+sudo nano /etc/samba/smb.conf
+```
+
+Добавьте следующие секции для каждой общей папки:
+
+```ini
+[Branch_Files]
+   path = /shared/Branch_Files
+   valid users = BranchAdminUser
+   read only = no
+
+[Network]
+   path = /shared/Network
+   valid users = NetworkAdminUser
+   read only = no
+
+[Admin_Files]
+   path = /shared/Admin_Files
+   valid users = AdminUser
+   read only = no
+```
+
+Убедитесь, что заменили `BranchAdminUser`, `NetworkAdminUser` и `AdminUser` на реальные имена пользователей.
+
+5. Сохраните и закройте файл smb.conf.
+
+6. Запустите следующие команды для создания пользователей Samba и установки паролей для них:
+
+```bash
+sudo smbpasswd -a BranchAdminUser
+sudo smbpasswd -a NetworkAdminUser
+sudo smbpasswd -a AdminUser
+```
+
+Следуйте инструкциям для установки паролей.
+
+7. Теперь настроим автоматическое монтирование при входе пользователя в систему. Для этого можно использовать `pam_mount`. Установите его, если он еще не установлен:
+
+```bash
+sudo apt-get install libpam-mount
+```
+
+8. Отредактируйте конфигурационный файл PAM для монтирования `/etc/security/pam_mount.conf.xml`. Добавьте следующие строки в файл:
+
+```xml
+<!-- Пример для BranchAdminUser -->
+<volume user="BranchAdminUser" fstype="cifs" server="HQ-SRV" path="/Branch_Files" mountpoint="/mnt/Branch_Files" options="username=BranchAdminUser,password=your_password,uid=1000,gid=1000" />
+```
+
+Замените `BranchAdminUser` на имя пользователя, `your_password` на пароль пользователя, а также укажите соответствующие секции для других пользователей.
+
+9. Убедитесь, что PAM поддерживает монтирование, отредактировав файл `/etc/security/pam_mount.conf.xml`:
+
+```bash
+sudo nano /etc/security/pam_mount.conf.xml
+```
+
+Убедитесь, что строка `<action>` установлена в "mount".
+
+10. Сохраните и закройте файл `pam_mount.conf.xml`.
+
+11. Теперь настроим PAM для автоматического монтирования при входе. Отредактируйте файл `/etc/pam.d/common-session`:
+
+```bash
+sudo nano /etc/pam.d/common-session
+```
+
+Добавьте следующую строку в конец файла:
+
+```bash
+session optional pam_mount.so
+```
+
+12. Сохраните и закройте файл `common-session`.
+
+13. Перезапустите службу Samba и PAM:
+
+```bash
+sudo service smbd restart
+sudo service nmbd restart
+sudo service pam_mount restart
+```
+
+Теперь при входе доменного пользователя в систему автоматически будет выполняться монтирование соответствующих общих папок Samba, и при выходе из сессии они будут отключены. Убедитесь, что правильно настроены разрешения и пароли для пользователей Samba, а также что на сервере HQ-SRV работает служба Samba.
 
 
 
