@@ -23,5 +23,15 @@ services:
     volumes:
       - dbvolume:/var/lib/mysql
 
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-config:/etc/nginx/conf.d
+    depends_on:
+      - wiki
+
 volumes:
   dbvolume:
+
