@@ -6,17 +6,18 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./LocalSettings.php:/var/www/html/LocalSettings.php
+      - ~/LocalSettings.php:/var/www/html/LocalSettings.php
     environment:
-      - MYSQL_HOST=db
-      - MYSQL_DATABASE=mediawiki
-      - MYSQL_USER=wiki
-      - MYSQL_PASSWORD=DEP@ssw0rd
+      - MW_DB_HOST=db
+      - MW_DB_PORT=3306
+      - MW_DB_NAME=mediawiki
+      - MW_DB_USER=wiki
+      - MW_DB_PASS=DEP@ssw0rd
 
   db:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: mediawiki
       MYSQL_USER: wiki
       MYSQL_PASSWORD: DEP@ssw0rd
