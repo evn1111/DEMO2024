@@ -23,7 +23,6 @@ services:
     volumes:
       - dbvolume:/var/lib/mysql
 
-
 volumes:
   dbvolume:
 
