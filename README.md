@@ -185,5 +185,61 @@ sudo service pam_mount restart
 
 Теперь при входе доменного пользователя в систему автоматически будет выполняться монтирование соответствующих общих папок Samba, и при выходе из сессии они будут отключены. Убедитесь, что правильно настроены разрешения и пароли для пользователей Samba, а также что на сервере HQ-SRV работает служба Samba.
 
+## Запуск сервиса  MediaWiki используя docker на сервере
 
+1. Установите службы Docker и Docker-compose
 
+2. Создайте файл wiki.yml
+```bash
+touch wiki.yml
+```
+3. Отредактируйте созданный файл
+```bash
+vim wiki.yml
+```
+4. Приведите его к следующему виду
+```
+# MediaWiki with MariaDB
+#
+# Access via "http://localhost:8080"
+#   (or "http://$(docker-machine ip):8080" if using docker-machine)
+version: '3'
+services:
+  mediawiki:
+    image: mediawiki
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - database
+    volumes:
+      - images:/var/www/html/images
+      # After initial setup, download LocalSettings.php to the same directory as
+      # this yaml and uncomment the following line and use compose to restart
+      # the mediawiki service
+      # - ./LocalSettings.php:/var/www/html/LocalSettings.php
+  # This key also defines the name of the database host used during setup instead of the default "localhost"
+  database:
+    image: mariadb
+    restart: always
+    environment:
+      # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
+      MYSQL_DATABASE: mediawiki
+      MYSQL_USER: wik
+      MYSQL_PASSWORD: DEP@ssw0rd
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  images:
+  db:
+```
+5. Запустите docker контейнеры 
+```bash
+docker-compose -f wiki.yml up -d
+```
+6. Проверьте запуск контейнеров
+```bash
+docker ps
+```
