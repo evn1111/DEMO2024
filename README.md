@@ -278,7 +278,7 @@ hostname -i
 ```bash
 cp /home/user/Downloads/LocalSettings.php /root/
 ```
-14. Снимаем комментайри со строчки в wiki.yml
+14. Снимаем комментарий со строчки в wiki.yml
 ```bash
 ./LocalSettings.php:/var/www/html/LocalSettings.php
 ```
