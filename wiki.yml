@@ -24,7 +24,7 @@ services:
     environment:
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
       MYSQL_DATABASE: mediawiki
-      MYSQL_USER: wik
+      MYSQL_USER: wiki
       MYSQL_PASSWORD: DEP@ssw0rd
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     volumes:
