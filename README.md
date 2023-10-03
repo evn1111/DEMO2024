@@ -248,4 +248,51 @@ docker ps
 
 Нажимамем "Please set up the wiki first."
 
+8. Выбираем язык
+<img width="376" alt="image" src="https://github.com/evn1111/DEMO2024/assets/138611344/6d7f5226-4f3a-477d-8820-38ed18be2794">
+
+9. Приступаем к настройке базы данных
+<img width="529" alt="image" src="https://github.com/evn1111/DEMO2024/assets/138611344/776de038-b687-4832-b2bf-56dc022ea925">
+
+10 Для того, чтобы узнать хост базы данных, пропишем на хосте следующие команды 
+```bash
+docker exec -it root-database-1 bash
+```
+Где "root-database-1" - имя запущенного контейнера, что его уточнить, можно прописать 
+```bash
+docker ps
+```
+А после того, как вам удалось войти в контейнер БД, нужно прописать команды 
+```bash
+hostname -i
+```
+В результате чего, БД выдаст вам желаемы хост базы данных
+
+11. Заполняем таблицу основываясь на wiki.yml файле и полученном хосте
+<img width="524" alt="image" src="https://github.com/evn1111/DEMO2024/assets/138611344/80bd2043-413b-4021-a1d2-8188e7ff024a">
+
+12. Создаём учетную запись
+<img width="347" alt="image" src="https://github.com/evn1111/DEMO2024/assets/138611344/9c8ff72f-9bdb-41c0-9603-48c6d04bfd9f">
+
+13. После проделанных манипуляций, сайт Mediawiki предложит вам скачать файл LocalSettings.php, который нужно скопировать в одну директорию с wiki.yml
+```bash
+cp /home/user/Downloads/LocalSettings.php /root/
+```
+14. Снимаем комментайри со строчки
+```bash
+./LocalSettings.php:/var/www/html/LocalSettings.php
+```
+В wiki.yml
+
+16. Перезапускаем контейнеры
+```bash
+docker-compose -f wiki.yml up -d
+```
+17. Mediawiki должно работать
+<img width="959" alt="image" src="https://github.com/evn1111/DEMO2024/assets/138611344/59eb8d0e-141f-4cba-9e08-50290fdb3430">
+
+
+
+
+
 
