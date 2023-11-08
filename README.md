@@ -305,6 +305,7 @@ sudo systemctl restart apache2
 ```bash
 http://your-domain.com
 ```
+В появившемся окне, выберите язык 
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/120189d1-2cf5-4679-b9b5-c34a38f02e51)
 Настройте URL-адрес, корневой веб-каталог и каталог данных, а затем нажмите «Далее»
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/c93ee33a-1b18-4602-ba71-15fc279ce9aa)
@@ -324,11 +325,6 @@ http://your-domain.com
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/869177fb-00e6-4767-9bb6-f3fbe17cfb4d)
 Вы будете перенаправлены на панель администратора
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/b509f0a3-42fa-4911-bc20-4db2598845c3)
-
-
-
-
-В появившемся окне, выберите язык 
 
 ## Запуск сервиса  MediaWiki используя docker на сервере
 
