@@ -305,25 +305,35 @@ sudo systemctl restart apache2
 ```bash
 http://your-domain.com
 ```
-В появившемся окне, выберите язык 
+В появившемся окне, выберите язык
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/120189d1-2cf5-4679-b9b5-c34a38f02e51)
 Настройте URL-адрес, корневой веб-каталог и каталог данных, а затем нажмите «Далее»
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/c93ee33a-1b18-4602-ba71-15fc279ce9aa)
 Настройте «драйвер базы данных», используйте сервер базы данных MariaDB и нажмите «Далее»
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/ae735653-3dda-4dad-a84d-d34bd243e96f)
 Введите информацию о базе данных и нажмите «Далее», чтобы продолжить
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/d19606a4-5891-4af8-a2e5-1f159b209352)
 Примите Соглашение об авторском праве и нажмите «Продолжить»
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/d43f8e18-cde7-4fae-af21-77b2c6ca94ed)
 Система проверяет конфигурацию сервера и все расширения PHP, необходимые для Moodle
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/f958edee-27a6-425f-9d93-52961aa9492b)
 Если все требования выполнены, нажмите «Продолжить»
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/5ffcad3e-b76a-4fcf-b1bc-aad9aaa7c3a8)
 Убедитесь, что все результаты «Success». Затем снова нажмите «Продолжить»
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/b85ab35e-d92f-4b52-8917-0a7d7184a05b)
 Заполните информацию об администраторе и нажмите «Обновить профиль»
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/869177fb-00e6-4767-9bb6-f3fbe17cfb4d)
 Вы будете перенаправлены на панель администратора
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/b509f0a3-42fa-4911-bc20-4db2598845c3)
 
 ## Запуск сервиса  MediaWiki используя docker на сервере
