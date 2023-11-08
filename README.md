@@ -139,6 +139,8 @@ git clone https://github.com/freeipa/freeipa-container.git
 cd freeipa-container
 ```
 
+![image](https://github.com/evn1111/DEMO2024/assets/138611344/3ae349c9-b310-4dc5-9e4c-457c773b3ea1)
+
 Теперь запустите приведенную ниже команду «ls», чтобы проверить список файлов и каталогов в репозитории «freeipa-container». Вы должны увидеть несколько файлов Dockerfile, которые вы можете использовать для настройки сервера FreeIPA в вашей системе Debian.
 
 ```bash
@@ -146,9 +148,6 @@ ls
 ```
 
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/280d11ab-f678-48ea-be7c-f1f72998f94a)
-
-![image](https://github.com/evn1111/DEMO2024/assets/138611344/dcd23f5f-1c6d-49df-a8fe-6afdecd88326)
-
 
 ## Модуль 2 задание 4
 
