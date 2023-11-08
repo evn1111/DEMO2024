@@ -82,13 +82,16 @@ FreeIPA — это решение для управления идентифик
 sudo apt install curl gnupg git lsb-release
 ```
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/e0574f6c-6a08-4c26-aa77-085a3400b5fe)
+
 Затем добавьте и загрузите ключ GPG репозитория Docker CE.
+
 ```bash
 sudo mkdir -m 0755 -p /etc/apt/keyrings
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 ```
 После добавления ключа GPG введите следующую команду, чтобы добавить репозиторий Docker CE.
+
 ```bash
 echo 
 
@@ -97,24 +100,34 @@ echo
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/31db1f23-3035-4522-9f58-0341a02f2a25)
+
 Теперь запустите приведенную ниже команду «apt update», чтобы обновить индекс вашего пакета Debian.
+
 ```bash
 sudo apt update
 ```
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/c332793b-c44f-470f-801a-424daee66365)
+
 Затем установите пакеты Docker CE, введя команду «apt install» ниже. Введите y для подтверждения при появлении запроса и нажмите ENTER, чтобы продолжить.
+
 ```bash
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/3e3749ff-d255-4870-ad71-d4c232834ee4)
+
 Если Docker CE установлен, он также автоматически запускается и включается. выполните команду systemctl ниже, чтобы проверить службу Docker.
+
 ```bash
 sudo systemctl is-enabled docker
 
 sudo systemctl status docker
 ```
+
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/580b61bf-402d-4c44-a6c7-38267d7f6aad)
+
 Наконец, если вы планируете запускать приложение Docker от пользователя без полномочий root, вам необходимо добавить своего пользователя в группу «docker». Введите следующую команду, чтобы добавить пользователя в группу «docker». В этом примере вы добавите пользователя «user» в группу «docker».
+
 ```bash
 sudo usermod -aG docker user
 ```
@@ -238,47 +251,64 @@ sudo service pam_mount restart
 ## Запуск сервиса  Moodle LMS (Apache2+MariaDB)
 
 Веб-сервер Apache доступен в репозитории Debian и может быть установлен через менеджер пакетов apt, выполнив следующую команду:
+
 ```bash
 sudo apt install apache2
 ```
-Добавьте Apache2 в автозапуск 
+Добавьте Apache2 в автозапуск.
+
 ```bash
 sudo systemctl enable apache2
 ```
-Для провекра первичной работоспособности яндекс зайдите в браузер и в поисковой строке введите ваш IP-адрес
+
+Для провекра первичной работоспособности яндекс зайдите в браузер и в поисковой строке введите ваш IP-адрес.
+
 ```bash
 http://your-IP-address
 ```
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/47180cb7-317f-40c5-8d5d-7e0b31bcb7a8)
 
-Для установки PHP для Moodle, скачиваем пакеты
+Для установки PHP для Moodle, скачиваем пакеты.
+
 ```bash
 sudo apt install php libapache2-mod-php php-iconv php-intl php-soap php-zip php-curl php-mbstring php-mysql php-gd php-xml php-pspell php-json php-xmlrpc
 ```
-Проверить наличие PHP можно командой
+
+Проверить наличие PHP можно командой:
+
 ```bash
 php -v
 ```
-Вы должны получить такой ответ
+
+Вы должны получить такой ответ:
+
 ```bash
 Output: PHP 7.4.28 (cli) (built: Feb 17 2022 16:17:19) ( NTS )
 Copyright (c) The PHP Group
 Zend Engine v3.4.0, Copyright (c) Zend Technologies
     with Zend OPcache v7.4.28, Copyright (c), by Zend Technologies
 ```
-Установка Базы Данных MariaDB осуществляется следующей командой 
+
+Установка Базы Данных MariaDB осуществляется следующей командой:
+
 ```bash
 sudo apt install mariadb-server mariadb-client
 ```
-Добавьте MariaDB в автозагрузку 
+
+Добавьте MariaDB в автозагрузку.
+
 ```bash
 sudo systemctl enable mariadb
 ```
-Для дальнейшей работы, нужно отредактировать конфигурационный файл MariaDB
+
+Для дальнейшей работы, нужно отредактировать конфигурационный файл MariaDB.
+
 ```
 sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
-Добавьте следующие строки
+
+Добавьте следующие строки:
+
 ```bash
 default_storage_engine = innodb
 innodb_file_per_table = 1
@@ -288,11 +318,15 @@ innodb_file_format = Barracuda
 ```bash
 sudo systemctl restart mariadb
 ```
-Для создания базы данных в MariaDB, сначала войдите в неё 
+
+Для создания базы данных в MariaDB, сначала войдите в неё.
+
 ```bash
 sudo  mysql -u root
 ```
-Чтобы создать базу данных, пользователя базы данных и выдать все привелегии, нужно прописать 
+
+Чтобы создать базу данных, пользователя базы данных и выдать все привелегии, нужно прописать:
+
 ```bash
 MariaDB [(none)]> CREATE DATABASE moodledb;
 MariaDB [(none)]> CREATE USER 'moodle_user'@'localhost' IDENTIFIED BY 'Moodle_Passw0rd!';
@@ -300,29 +334,41 @@ MariaDB [(none)]> GRANT ALL ON moodledb.* TO 'moodle_user'@'localhost';
 MariaDB [(none)]> FLUSH PRIVILEGES;
 MariaDB [(none)]> EXIT
 ```
-Установка Moodle производится с помощью команды 
+
+Установка Moodle производится с помощью команды:
+
 ```bash
 sudo wget https://download.moodle.org/download.php/direct/stable400/moodle-4.0.1.zip
 ```
-После загрузки, распакуйте скаченные файлы и сохраните их в директорию  для html
+
+После загрузки, распакуйте скаченные файлы и сохраните их в директорию  для html.
+
 ```bash
 sudo unzip moodle-4.0.1.zip -d /var/www/html/
 ```
-Создайте директорию для Moodle
+
+Создайте директорию для Moodle.
+
 ```bash
 sudo mkdir /var/www/html/moodledata
 ```
-Настройке права доступа для созданной диреткории
+
+Настройте права доступа для созданной диреткории.
+
 ```bash
 sudo chown -R www-data:www-data /var/www/html/moodle/
 sudo chmod -R 755 /var/www/html/moodle/
 sudo chown -R www-data:www-data /var/www/html/moodledata/
 ```
-Создайте конфигурационный файл Apache для сайта 
+
+Создайте конфигурационный файл Apache для сайта.
+
 ```bash
 nano /etc/apache2/sites-available/moodle.conf
 ```
-Файл должен выглядить следующим образом
+
+Файл должен выглядить следующим образом:
+
 ```bash
 <VirtualHost *:80>
 
@@ -343,18 +389,25 @@ CustomLog ${APACHE_LOG_DIR}/your-domain.com_access.log combined
 
 </VirtualHost>
 ```
-Активируйте виртуальный хост Apache
+
+Активируйте виртуальный хост Apache.
+
 ```bash
 sudo a2ensite moodle.conf
 ```
-Перезапустите службу
+
+Перезапустите службу.
+
 ```bash
 sudo systemctl restart apache2
 ```
-Чтобы получить доступ к веб-установки, открой браузер и перейдите по IP-адресу/DNS имени на ваш хост
+
+Чтобы получить доступ к веб-установки, открой браузер и перейдите по IP-адресу/DNS имени на ваш хост.
+
 ```bash
 http://your-domain.com
 ```
+
 В появившемся окне, выберите язык
 
 ![image](https://github.com/evn1111/DEMO2024/assets/138611344/120189d1-2cf5-4679-b9b5-c34a38f02e51)
