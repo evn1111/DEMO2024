@@ -62,13 +62,63 @@ CONFIG_FILE="/etc/network/interfaces"
 BACKUP_FILE="/root/interfaces_backup_$(date +%Y%m%d%H%M%S)"
 ```
 6. Создаём резервную копию файла конфигурации
-```
+```bash
 cp $CONFIG_FILE $BACKUP_FILE
 ```
 7. Для того, чтобы пользователь понимал, что bash скрипт выполнение успешно, добавим вывод строки с помощью echo c указанием созданных раннее переменных
-```
+```bash
 echo "Backup of $CONFIG_FILE saved to $BACKUP_FILE"
 ```
+## Модуль 2 задание 3
+
+Настройка домена на Debian реализуется с помощью FreeIPA.
+
+FreeIPA — это решение для управления идентификацией с открытым исходным кодом для операционных систем Linux/Unix. Это дочерний проект RedHat Identity Management System, который предоставляет решения для аутентификации и авторизации для систем Linux/Unix.
+
+Перед настройкой, убедитесь, что вы выполнили 1 и 2 задания 2 модуля, ибо без корректно натсроенных службы NTP и DNS могут возникунть ошибки.
+
+Сначала введите следующую команду apt, чтобы установить основные зависимости.
+```bash
+sudo apt install curl gnupg git lsb-release
+```
+![image](https://github.com/evn1111/DEMO2024/assets/138611344/e0574f6c-6a08-4c26-aa77-085a3400b5fe)
+Затем добавьте и загрузите ключ GPG репозитория Docker CE.
+```bash
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
+После добавления ключа GPG введите следующую команду, чтобы добавить репозиторий Docker CE.
+```bash
+echo 
+
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu 
+
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+![image](https://github.com/evn1111/DEMO2024/assets/138611344/31db1f23-3035-4522-9f58-0341a02f2a25)
+Теперь запустите приведенную ниже команду «apt update», чтобы обновить индекс вашего пакета Debian.
+```bash
+sudo apt update
+```
+![image](https://github.com/evn1111/DEMO2024/assets/138611344/c332793b-c44f-470f-801a-424daee66365)
+Затем установите пакеты Docker CE, введя команду «apt install» ниже. Введите y для подтверждения при появлении запроса и нажмите ENTER, чтобы продолжить.
+```bash
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+![image](https://github.com/evn1111/DEMO2024/assets/138611344/3e3749ff-d255-4870-ad71-d4c232834ee4)
+Если Docker CE установлен, он также автоматически запускается и включается. выполните команду systemctl ниже, чтобы проверить службу Docker.
+```bash
+sudo systemctl is-enabled docker
+
+sudo systemctl status docker
+```
+![image](https://github.com/evn1111/DEMO2024/assets/138611344/580b61bf-402d-4c44-a6c7-38267d7f6aad)
+Наконец, если вы планируете запускать приложение Docker от пользователя без полномочий root, вам необходимо добавить своего пользователя в группу «docker». Введите следующую команду, чтобы добавить пользователя в группу «docker». В этом примере вы добавите пользователя «user» в группу «docker».
+```bash
+sudo usermod -aG docker user
+```
+
 ## Модуль 2 задание 4
 
 Настройка SMB-сервера на базе сервера HQ-SRV для реализации общих папок с разрешениями для разных пользователей и автоматическим монтированием при входе доменных пользователей может быть выполнена следующим образом:
