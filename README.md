@@ -184,12 +184,25 @@ sudo apt install nfs-kernel-server
 
 На клиенте необходимо установить пакет nfs-common, обеспечивающий функции NFS без добавления каких-либо серверных компонентов. Обновите индекс локальных пакетов перед установкой, чтобы гарантированно использовать актуальную информацию:
 
-Для начала создайте каталоги
+```bash
+sudo apt update
+sudo apt install nfs-common
+```
+
+Для начала создайте каталоги на HQ-SRV:
 
 ```bash
 mkdir /shares/network -p
 mkdir /shares/branch_files -p
 mkdir /shares/admin_files -p
+```
+
+Для монтирования на клиенте также создайте каталоги:
+
+```bash
+mkdir /mnt/network -p
+mkdir /mnt/admin_files -p
+mkdir /mnt/branch_files -p
 ```
 
 Для настройки экспорта каталога, откройте следующие записи:
@@ -199,6 +212,7 @@ mkdir /shares/admin_files -p
 /share/branch_files client_ip(rw,sync,no_roo_squash)
 /share/admin_files client_ip(rw,sync,no_roo_squash)
 ```
+
 Здесь мы используем для обоих каталогов одинаковые параметры конфигурации, за исключением no_root_squash. Посмотрим, что означают эти опции:
 
 rw: эта опция дает клиенту доступ к чтению и записи на соответствующем томе.
@@ -220,72 +234,6 @@ chown nobody:nogroup /shares/network
 chown nobody:nogroup /shares/branch_files
 chown nobody:nogroup  /shares/admin_files
 ```
-
-```bash
-sudo apt update
-sudo apt install nfs-common
-```
-
-5. Сохраните и закройте файл smb.conf.
-
-6. Запустите следующие команды для создания пользователей Samba и установки паролей для них:
-
-```bash
-sudo smbpasswd -a BranchAdminUser
-sudo smbpasswd -a NetworkAdminUser
-sudo smbpasswd -a AdminUser
-```
-
-Следуйте инструкциям для установки паролей.
-
-7. Теперь настроим автоматическое монтирование при входе пользователя в систему. Для этого можно использовать `pam_mount`. Установите его, если он еще не установлен:
-
-```bash
-sudo apt-get install libpam-mount
-```
-
-8. Отредактируйте конфигурационный файл PAM для монтирования `/etc/security/pam_mount.conf.xml`. Добавьте следующие строки в файл:
-
-```xml
-<!-- Пример для BranchAdminUser -->
-<volume user="BranchAdminUser" fstype="cifs" server="HQ-SRV" path="/Branch_Files" mountpoint="/mnt/Branch_Files" options="username=BranchAdminUser,password=your_password,uid=1000,gid=1000" />
-```
-
-Замените `BranchAdminUser` на имя пользователя, `your_password` на пароль пользователя, а также укажите соответствующие секции для других пользователей.
-
-9. Убедитесь, что PAM поддерживает монтирование, отредактировав файл `/etc/security/pam_mount.conf.xml`:
-
-```bash
-sudo nano /etc/security/pam_mount.conf.xml
-```
-
-Убедитесь, что строка `<action>` установлена в "mount".
-
-10. Сохраните и закройте файл `pam_mount.conf.xml`.
-
-11. Теперь настроим PAM для автоматического монтирования при входе. Отредактируйте файл `/etc/pam.d/common-session`:
-
-```bash
-sudo nano /etc/pam.d/common-session
-```
-
-Добавьте следующую строку в конец файла:
-
-```bash
-session optional pam_mount.so
-```
-
-12. Сохраните и закройте файл `common-session`.
-
-13. Перезапустите службу Samba и PAM:
-
-```bash
-sudo service smbd restart
-sudo service nmbd restart
-sudo service pam_mount restart
-```
-
-Теперь при входе доменного пользователя в систему автоматически будет выполняться монтирование соответствующих общих папок Samba, и при выходе из сессии они будут отключены. Убедитесь, что правильно настроены разрешения и пароли для пользователей Samba, а также что на сервере HQ-SRV работает служба Samba.
 
 ## Запуск сервиса  Moodle LMS (Apache2+MariaDB)
 
