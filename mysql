@@ -1,0 +1,5 @@
+MariaDB [(none)]> CREATE DATABASE moodledb;
+MariaDB [(none)]> CREATE USER 'moodle_user'@'localhost' IDENTIFIED BY 'Moodle_Passw0rd!';
+MariaDB [(none)]> GRANT ALL ON moodledb.* TO 'moodle_user'@'localhost';
+MariaDB [(none)]> FLUSH PRIVILEGES;
+MariaDB [(none)]> EXIT

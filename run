@@ -1,0 +1,1 @@
+docker build -t freeipa-almalinux9 -f  Dockerfile.almalinux-9 .
